@@ -8,63 +8,24 @@ bilgiler = {
     "dogum_yeri": "Beykoz / İstanbul",
     "universite": "İstanbul Medipol Üniversitesi, Yönetim Bilişim Sistemleri (Mezun)",
     "gpa": "3.41",
-    "staj": ["Intercom Kurz – 1 ay", "DenizBank – 6 ay, Kredi Kartı Satış & Performans Yönetimi"],
+    "staj": "Intercom Kurz – 1 ay; DenizBank – 6 ay, Kredi Kartı Satış & Performans Yönetimi",
     "dil": "İngilizce – Orta seviye",
-    "teknik_beceriler": ["Python", "SQL", "Excel", "Power BI", "Algoritmik Trading"],
-    "soft_beceriler": ["Analitik düşünme", "Problem çözme", "İletişim", "Planlama", "Takım çalışması"],
-    "projeler": ["Data mining projesi: D-7 ülkelerinin ekonomik verilerini analiz ederek ticari banka şubeleri, ATM sayısı, işsizlik oranı ve kişi başına GSYİH üzerine çalışıldı."],
+    "teknik_beceriler": "Python, SQL, Excel, Power BI, Algoritmik Trading",
+    "soft_beceriler": "Analitik düşünme, problem çözme, iletişim, planlama, takım çalışması",
+    "projeler": "Data mining projesi: D-7 ülkelerinin ekonomik verilerini analiz ederek ticari banka şubeleri, ATM sayısı, işsizlik oranı ve kişi başına GSYİH üzerine çalışıldı.",
     "tanitim_cumlesi": "Merhaba, ben Furkan Safa Kala. Veri analizi ve finans teknolojileri alanına ilgi duyan, analitik düşünen, çözüm odaklı bir mezunum. Staj deneyimim Intercom Kurz'ta 1 ay ve DenizBank’ta 6 ay boyunca Kredi Kartı Satış ve Performans Yönetimi üzerine çalışmayı içeriyor. Teknik olarak Python, SQL, Excel ve Power BI konularında yetkinim. İngilizce seviyem orta düzeyde. Profesyonel hedefim veri analizi ve finansal projelerde kendimi geliştirmek."
 }
 
 # ---- Streamlit Arayüzü ----
 st.set_page_config(page_title="Furkan Kala Chatbot", page_icon="🤖")
 st.title("🤖 Furkan Safa Tanıtım Chatbotu")
-st.image("https://via.placeholder.com/150", width=150)  # Profil fotoğrafı placeholder
-st.write("Merhaba! Furkan hakkında merak ettiklerini sorabilirsin. Aşağıdaki sekmelerden veya soru-cevap bölümünden bilgi alabilirsin.")
+st.write("Merhaba! Furkan hakkında merak ettiklerini sorabilirsin. Aşağıya bir soru yaz.")
 
-# ---- Sekmeler ----
-tabs = st.tabs(["Genel Bilgi", "Eğitim & Staj", "Beceriler", "Projeler", "Tanıtım Cümlesi"])
-
-with tabs[0]:
-    st.subheader("Genel Bilgi")
-    st.write(f"**İsim:** {bilgiler['isim']}")
-    st.write(f"**Yaş:** {bilgiler['yas']}")
-    st.write(f"**Doğum Tarihi:** {bilgiler['dogum_tarihi']}")
-    st.write(f"**Doğum Yeri:** {bilgiler['dogum_yeri']}")
-    st.write(f"**İngilizce Seviyesi:** {bilgiler['dil']}")
-
-with tabs[1]:
-    st.subheader("Eğitim & Staj")
-    st.write(f"**Üniversite:** {bilgiler['universite']} (GPA: {bilgiler['gpa']})")
-    st.write("**Stajlar:**")
-    for s in bilgiler['staj']:
-        st.markdown(f"- {s}")
-
-with tabs[2]:
-    st.subheader("Beceriler")
-    st.write("**Teknik Beceriler:**")
-    for beceri in bilgiler['teknik_beceriler']:
-        st.markdown(f"- {beceri}")
-    st.write("**Soft Skills:**")
-    for skill in bilgiler['soft_beceriler']:
-        st.markdown(f"- {skill}")
-
-with tabs[3]:
-    st.subheader("Projeler")
-    for proje in bilgiler['projeler']:
-        st.markdown(f"- {proje}")
-
-with tabs[4]:
-    st.subheader("Tanıtım Cümlesi")
-    st.write(bilgiler['tanitim_cumlesi'])
-
-# ---- Chatbot Soru-Cevap ----
-st.write("---")
-st.subheader("Soru-Cevap Bölümü")
 soru = st.text_input("Sorunu yaz:")
 
 if soru:
     s = soru.lower()
+
     if any(x in s for x in ["isim", "kim"]):
         st.success(bilgiler["isim"])
     elif any(x in s for x in ["yaş", "kaç"]):
@@ -74,22 +35,16 @@ if soru:
     elif any(x in s for x in ["üniversite", "okul", "mezun"]):
         st.success(f"{bilgiler['universite']} (GPA: {bilgiler['gpa']})")
     elif any(x in s for x in ["staj", "deneyim"]):
-        st.success("; ".join(bilgiler["staj"]))
+        st.success(bilgiler["staj"])
     elif any(x in s for x in ["dil", "ingilizce"]):
         st.success(bilgiler["dil"])
     elif any(x in s for x in ["teknik", "beceri", "yetenek"]):
-        st.success(", ".join(bilgiler["teknik_beceriler"]))
+        st.success(bilgiler["teknik_beceriler"])
     elif any(x in s for x in ["soft", "kişisel", "karakter"]):
-        st.success(", ".join(bilgiler["soft_beceriler"]))
+        st.success(bilgiler["soft_beceriler"])
     elif any(x in s for x in ["proje", "projeler"]):
-        st.success("; ".join(bilgiler["projeler"]))
+        st.success(bilgiler["projeler"])
     elif any(x in s for x in ["tanıtım", "kendini anlat"]):
         st.success(bilgiler["tanitim_cumlesi"])
     else:
         st.warning("Bu konuda Furkan hakkında hazır bir bilgim yok, ancak ekleyebilirsin!")
-
-# ---- CV Download ----
-st.download_button("CV'yi İndir", data=open("CV.pdf", "rb").read(), file_name="Furkan_Kala_CV.pdf")
-
-# ---- Proje Linki Örnek ----
-st.markdown("[GitHub Projelerim](https://github.com/furkankala)")
